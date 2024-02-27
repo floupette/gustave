@@ -1,0 +1,59 @@
+### Créer un utilisateur ###
+
+POST http://localhost:3630/users/create
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "name": "Test Admin",
+    "tel": "0123456789",
+    "is_admin": true
+}
+
+### Créer un utilisateur ###
+
+POST http://localhost:3630/users/create
+Content-Type: application/json
+
+{
+    "email": "ferhat.maini@institutsolacroup.com",
+    "name": "Ferhat Maini",
+    "tel": "0123456789",
+    "is_admin": true
+}
+
+### Créer un utilisateur ###
+
+POST http://localhost:3630/users/create
+Content-Type: application/json
+
+{
+    "email": "alexandre.buet@institutsolacroup.com",
+    "name": "Alexandre Buet",
+    "tel": "0123456789",
+    "is_admin": true
+}
+
+### Récupérer tous les utilisateurs ###
+
+GET http://localhost:3630/users
+
+### Récupérer un utilisateur par ID ###
+
+GET http://localhost:3630/users/17
+
+### Mettre à jour un utilisateur par ID ###
+
+PUT http://localhost:3630/users/17
+Content-Type: application/json
+
+{
+    "email":"test@example.com",
+    "name": "Admin Test",
+    "tel": "9876543210",
+    "password": "1234"
+}
+
+### Supprimer un utilisateur par ID ###
+
+DELETE http://localhost:3630/users/1

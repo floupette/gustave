@@ -13,6 +13,6 @@ class UserModel extends Model
 
     public function ratings()
     {
-        return $this->hasMany('App\Models\RatingModel', 'user', 'id');
+        return $this->hasMany('Models\RatingModel', 'user', 'id');
     }
 }
