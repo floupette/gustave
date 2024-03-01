@@ -1,0 +1,51 @@
+### Créer un nouveau commentaire
+
+POST http://localhost:3630/ratings/create
+Content-Type: application/json
+
+{
+  "rated": "10",
+  "text": "example_text",
+  "logement_id": "6",
+  "reservation_id": "1",
+  "user_id": "1"
+}
+
+### Créer un nouveau commentaire
+
+POST http://localhost:3630/ratings/create
+Content-Type: application/json
+
+{
+  "rated": "5",
+  "text": "example_text",
+  "logement_id": "6",
+  "reservation_id": "1",
+  "user_id": "1"
+}
+
+### Afficher la liste des commentaires
+
+GET http://localhost:3630/ratings
+
+
+### Afficher un commentaire par ID
+
+GET http://localhost:3630/ratings/2
+
+### Mettre à jour un commentaire par ID
+
+PUT http://localhost:3630/ratings/1
+Content-Type: application/json
+
+{
+  "rated": "5",
+  "text": "updated",
+  "logement_id": "6",
+  "reservation_id": "1",
+  "user_id": "1"
+}
+
+### Supprimer un commentaire par ID
+
+DELETE http://localhost:3630/ratings/3

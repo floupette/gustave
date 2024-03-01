@@ -36,13 +36,21 @@ class CreateUsersTable extends Migration
                 'type' => 'BOOLEAN',
                 'default' => false,
             ],
-            'rating' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'default' => 0,
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'deleted_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
             ],
         ]);
         $this->forge->addPrimaryKey('id');
+        // Ajoutez les contraintes d'unicité pour les champs email et tel
+        $this->forge->addUniqueKey('email');
+        $this->forge->addUniqueKey('tel');
         $this->forge->createTable('users');
     }
 

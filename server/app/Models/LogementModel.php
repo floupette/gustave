@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -6,52 +6,55 @@ use CodeIgniter\Model;
 
 class LogementModel extends Model
 {
+    // Nom de la table dans la base de données
     protected $table = 'logements';
+    
+    // Clé primaire de la table
     protected $primaryKey = 'id';
 
-    protected $allowedFields = ['images', 'secteur', 'description', 'tarif_bas', 'tarif_moyen', 'tarif_haut', 'm_carre', 'chambre', 'salle_de_bain', 'categorie', 'type', 'equipements', 'rating'];
-      
-    // Relation avec les équipements (many-to-many)
-    protected $returnType = 'object';
-    protected $useSoftDeletes = false;
-    protected $useTimestamps = false;
-    protected $skipValidation = true;
-    protected $beforeInsert = ['associations'];
-    protected $beforeUpdate = ['associations'];
+    // Activer la suppression douce pour pouvoir supprimer un LOGEMENT, mais garder le LOGEMENT présent dans l'historique USER & RESA
+    protected $useSoftDeletes = true; 
 
-    protected $validationRules    = [];
-    protected $validationMessages = [];
-    protected $validation         = false;
-    
-    protected function associations(array $data)
+    // Champs autorisés à être assignés lors de l'utilisation des méthodes insert ou update
+    protected $allowedFields = ['name', 'images', 'secteur', 'description', 'tarif_bas', 'tarif_moyen', 'tarif_haut', 'm_carre', 'chambre', 'salle_de_bain', 'categorie', 'type'];
+
+    // Activer l'utilisation des timestamps pour suivre la création et la mise à jour des enregistrements.
+    protected $useTimestamps = true;
+
+    // Nom de la colonne enregistrant la date et l'heure de création des enregistrements.
+    protected $createdField = 'created_at';
+
+    // Nom de la colonne enregistrant la date et l'heure de la dernière mise à jour des enregistrements.
+    protected $updatedField = 'updated_at';
+
+    // Nom de la colonne pour la suppression douce, enregistrant la date et l'heure de "suppression".
+    protected $deletedField = 'deleted_at';
+
+    public function getEquipements(int $logementId) : array
     {
-        // Récupérer les équipements associés au logement
-        $equipements = $data['equipements'] ?? null;
-        unset($data['equipements']); // Retirer les équipements du tableau de données
-
-        // Insérer le logement dans la base de données
-        $logementId = $this->insert($data);
-
-        // Si des équipements ont été sélectionnés
-        if (!empty($equipements)) {
-            // Récupérer le modèle de la table de liaison logement_equipement
-            $logementEquipementModel = new LogementEquipementModel();
-
-            // Associer les équipements au logement
-            $logementEquipementModel->associateEquipements($logementId, $equipements);
-        }
-
-        return $data;
+        // Exemple de jointure pour récupérer les équipements associés à un logement spécifique
+        return $this->db->table('logement_equipement')
+            ->join('equipements', 'equipements.id = logement_equipement.equipement_id')
+            ->where('logement_equipement.logement_id', $logementId)
+            ->get()
+            ->getResultArray();
     }
-    
-    public function equipements()
+
+    public function getReservation(int $logementId) : array
     {
-        return $this->belongsToMany('Models\EquipementModel', 'logement_equipement', 'logement_id', 'equipement_id');
+        return $this->db->table('reservations')
+            ->select('id, start_date, end_date')
+            ->where('logement_id', $logementId)
+            ->get()
+            ->getResultArray();
     }
-    
-    
-    public function ratings()
+
+    public function getRating(int $logementId) : array
     {
-        return $this->hasMany('Models\RatingModel', 'logement', 'id');
+        return $this->db->table('ratings')
+            ->select('id, rated, text, logement_id, reservation_id, user_id')
+            ->where('logement_id', $logementId)
+            ->get()
+            ->getResultArray();
     }
 }

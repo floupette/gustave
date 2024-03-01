@@ -1,0 +1,79 @@
+### Créer un logement avec ses équipements ###
+POST http://localhost:3630/logements/create
+Content-Type: application/json
+
+{
+  "name": "Logement Test",
+  "images": "example_images",
+  "secteur": "Rennes",
+  "description": "Bel Appartement, vue mer",
+  "tarif_bas": 100,
+  "tarif_moyen": 150,
+  "tarif_haut": 200,
+  "m_carre": 150,
+  "chambre": 3,
+  "salle_de_bain": 2,
+  "categorie": "Appart",
+  "type": "Type",
+  "equipements": [
+    {"id": 1},
+    {"id": 2}
+  ]
+}
+
+### Créer un logement avec ses équipements ###
+POST http://localhost:3630/logements/create
+Content-Type: application/json
+
+{
+  "name": "Logement 2",
+  "images": "example_images",
+  "secteur": "Rennes",
+  "description": "Bel Appartement, vue mer",
+  "tarif_bas": 100,
+  "tarif_moyen": 150,
+  "tarif_haut": 200,
+  "m_carre": 150,
+  "chambre": 3,
+  "salle_de_bain": 2,
+  "categorie": "Appart",
+  "type": "Type",
+  "equipements": [
+    {"id": 4},
+    {"id": 3}
+  ]
+}
+
+### Afficher la liste des logements avec leurs équipements ###
+GET http://localhost:3630/logements
+
+### Afficher un logement par ID avec ses équipements ###
+GET http://localhost:3630/logements/6
+
+### Mettre à jour un logement par ID avec ses équipements ###
+PUT http://localhost:3630/logements/6
+Content-Type: application/json
+
+{
+  "name": "Updated Logement",
+  "images": "updated_images",
+  "secteur": "updated_secteur",
+  "description": "updated_description",
+  "tarif_bas": 120,
+  "tarif_moyen": 180,
+  "tarif_haut": 240,
+  "m_carre": 180,
+  "chambre": 4,
+  "salle_de_bain": 3,
+  "categorie": "updated_categorie",
+  "type": "updated_type",
+  "equipements": [
+    {"id": 1},
+    {"id": 2},
+    {"id": 3},
+    {"id": 4}
+  ]
+}
+
+### Supprimer un logement par ID ###
+DELETE http://localhost:3630/logements/5

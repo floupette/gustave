@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Controller;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class UserController extends Controller
 {
@@ -13,7 +15,6 @@ class UserController extends Controller
     // Méthode pour créer un utilisateur
     public function create()
     {
-
         // Récupérer les données du formulaire
         $data = $this->request->getJSON();
 
@@ -23,19 +24,18 @@ class UserController extends Controller
         $tel = $data->tel;
         $isAdmin = $data->is_admin;
 
-        // Vérifier si l'utilisateur existe déjà
+        // Vérifier si l'e-mail ou le numéro de téléphone est déjà utilisé
         $userModel = new UserModel();
         $existingUser = $userModel->where('email', $email)->first();
+        $existingTel = $userModel->where('tel', $tel)->first();
 
         if ($existingUser) {
-            // Afficher un message d'erreur si l'utilisateur existe déjà
-            return $this->failNotFound($name . ' existe déjà');
+            return $this->fail('L\'adresse e-mail est déjà utilisée.', 400);
+        } elseif ($existingTel) {
+            return $this->fail('Le numéro de téléphone est déjà utilisé.', 400);
         } else {
-
             // Générer un mot de passe aléatoire si non fourni
-            if (!isset($password)) {
-                $password = $this->generateRandomPassword();
-            }
+            $password = $this->generateRandomPassword();
 
             // Envoyer un e-mail au nouvel utilisateur avec le mot de passe généré
             $this->sendWelcomeEmail($email, $password);
@@ -51,33 +51,47 @@ class UserController extends Controller
                 'password' => $hashedPassword,
                 'is_admin' => $isAdmin
             ];
-        
+
             // Insérer l'utilisateur dans la base de données
             $userModel->insert($userData);
         }
 
         // Réponse de succès
-        return $this->respondCreated(['message' => $name . ' crée avec succès']);
+        return $this->respondCreated(['message' => $name . ' créé avec succès']);
     }
 
     // Méthode pour envoyer un e-mail de bienvenue avec le mot de passe généré
     private function sendWelcomeEmail($email, $password)
     {
-        $to = $email;
-        $subject = 'Bienvenue Chez Gustave';
-        $message = "Bienvenue dans notre application ! \n\n Vous avez été invité par votre parrain ! \n\n Votre mot de passe temporaire est : $password";
+        // Création d'une nouvelle instance de PHPMailer
+        $mail = new PHPMailer(true);
 
-        // Adresse e-mail de l'expéditeur à partir de la configuration
-        $fromEmail = config('Email')->fromEmail;
-        $fromName = config('Email')->fromName;
+        try {
+            // Paramètres SMTP
+            $mail->isSMTP();
+            $mail->Host = config('Email')->SMTPHost;
+            $mail->SMTPAuth = true;
+            $mail->Username = config('Email')->SMTPUser;
+            $mail->Password = config('Email')->SMTPPass;
+            $mail->SMTPSecure = config('Email')->SMTPCrypto;
+            $mail->Port = config('Email')->SMTPPort;
 
-        // En-têtes de l'e-mail
-        $headers = 'From: ' . $fromName . ' <' . $fromEmail . '>' . "\r\n";
+            // Destinataire
+            $mail->setFrom(config('Email')->fromEmail, config('Email')->fromName);
+            $mail->addAddress($email);
 
-        // Envoyer l'e-mail
-        mail($to, $subject, $message, $headers);
+            // Contenu de l'e-mail
+            $mail->isHTML(true);
+            $mail->Subject = 'Bienvenue Chez Gustave';
+            $mail->Body = "Bienvenue dans notre application !<br><br>Vous avez été invité par votre parrain !<br><br>Votre mot de passe temporaire est : $password";
+
+            // Envoi de l'e-mail
+            $mail->send();
+            echo 'Le Mail a été envoyé';
+        } catch (Exception $e) {
+            echo "Le Mail n'a pas été envoyé. Erreur: {$mail->ErrorInfo}";
+        }
     }
-
 
     // Méthode pour afficher un utilisateur par ID
     public function show($id)
@@ -92,12 +106,23 @@ class UserController extends Controller
             return $this->failNotFound($user['name'] . ' non trouvé');
         }
 
+        // Récupération des réservations de l'utilisateur
+        $reservations = $model->getReservation($id);
+        
+        // Récupération des ratings de l'utilisateur
+        $ratings = $model->getRating($id);
+
+        // Ajout des réservations et des ratings à la réponse de l'utilisateur
+        $user['reservations'] = $reservations;
+        $user['ratings'] = $ratings;
+
         // Suppression du mot de passe de la réponse
         unset($user['password']);
 
         // Réponse avec les données de l'utilisateur
         return $this->respond($user);
     }
+
 
     // Méthode pour afficher la liste des utilisateurs
     public function index()
@@ -109,6 +134,12 @@ class UserController extends Controller
 
         // Suppression des mots de passe de la réponse
         foreach ($users as &$user) {
+            $userId = $user['id'];
+            $reservations = $model->getReservation($userId);
+            $ratings = $model->getRating($userId);
+            $user['reservations'] = $reservations;
+            $user['ratings'] = $ratings;
+            // Suppression du mot de passe de la réponse
             unset($user['password']);
         }
 
@@ -119,41 +150,45 @@ class UserController extends Controller
     // Méthode pour mettre à jour un utilisateur par ID
     public function update($id)
     {
-        $model = new UserModel();
-
-        // Récupération de l'utilisateur par son ID
-        $user = $model->find($id);
-
-        // Vérification si l'utilisateur existe
-        if (!$user) {
-            return $this->failNotFound('Utilisateur non trouvé');
+        // Récupérer les données du formulaire JSON
+        $data = $this->request->getJSON();
+    
+        // Vérifier si l'utilisateur existe
+        $userModel = new UserModel();
+        $existingUser = $userModel->find($id);
+        if (!$existingUser) {
+            return $this->fail('Utilisateur non trouvé.', 404);
         }
-
-        // Récupération des données de la requête PUT
-        $data = $this->request->getJSON(true); // Récupération des données sous forme de tableau associatif
-
-        // Assurez-vous que l'e-mail est inclus dans les données et qu'il est valide
-        if (!isset($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            return $this->fail('L\'e-mail est requis et doit être valide.', 400);
+    
+        // Vérifier si l'e-mail ou le numéro de téléphone est déjà utilisé
+        $email = $data->email;
+        $tel = $data->tel;
+        $existingEmail = $userModel->where('email', $email)->where('id !=', $id)->first();
+        $existingTel = $userModel->where('tel', $tel)->where('id !=', $id)->first();
+        if ($existingEmail) {
+            return $this->fail('L\'adresse e-mail est déjà utilisée.', 400);
+        } elseif ($existingTel) {
+            return $this->fail('Le numéro de téléphone est déjà utilisé.', 400);
         }
+    
+        // Mettre à jour les données de l'utilisateur
+        $userData = [
+            'email' => $data->email,
+            'name' => $data->name,
+            'tel' => $data->tel,
+            'is_admin' => $data->is_admin,
+            'password' => password_hash($data->password, PASSWORD_DEFAULT)
+        ];
 
-        // Mettre à jour les autres champs si disponibles
-        $user['name'] = isset($data['name']) ? $data['name'] : $user['name'];
-        $user['tel'] = isset($data['tel']) ? $data['tel'] : $user['tel'];
-        $user['is_admin'] = isset($data['is_admin']) ? $data['is_admin'] : $user['is_admin'];
-        
-        // Vérifier si le mot de passe est fourni et s'il est différent du mot de passe actuel
-        if (isset($data['password']) && $data['password'] !== $user['password']) {
-            $user['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        }
+        //dd($userData);
 
         // Mettre à jour l'utilisateur dans la base de données
-        $model->update($id, $user);
-
+        $userModel->update($id, $userData);
+    
         // Réponse de succès
-        return $this->respond(['message' => $user['name'] . ' modifié avec succès']);
+        return $this->respond(['message' => $userData['name'] . ' modifié avec succès']);
     }
-
+    
 
     // Méthode pour supprimer un utilisateur par ID
     public function delete($id)
@@ -165,28 +200,25 @@ class UserController extends Controller
 
         // Vérification si l'utilisateur existe
         if (!$user) {
-            return $this->failNotFound($user['name'] . ' non trouvé');
+            return $this->failNotFound('Utilisateur non trouvé');
         }
 
         // Suppression de l'utilisateur de la base de données
         $model->delete($id);
 
         // Réponse de succès
-        return $this->respondDeleted(['message' => $user['name'] . ' supprimé avec succès']);
+        return $this->respondDeleted(['message' => 'Utilisateur supprimé avec succès']);
     }
 
-    // Méthode pour génèrer un mot de passe aléatoire en mélangeant une chaîne de caractères alphanumériques de référence
+    // Méthode pour générer un mot de passe aléatoire
     private function generateRandomPassword($length = 10)
     {
-        return substr( // Extrait une sous-chaîne de caractères de la chaîne générée
-            str_shuffle( // Mélange aléatoirement les caractères de la chaîne générée
-                str_repeat( // Répète une chaîne de caractères pour atteindre la longueur souhaitée
-                    $x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', // Chaîne de caractères alphanumériques de référence
-                    ceil($length/strlen($x)) // Répète la chaîne de caractères pour atteindre ou dépasser la longueur souhaitée du mot de passe
-                )
-            ), 
-            1, // Commence l'extraction à partir du deuxième caractère de la chaîne (caractère à l'index 0)
-            $length // Extrait une sous-chaîne de longueur $length à partir de la chaîne mélangée
-        );
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomPassword = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomPassword .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomPassword;
     }
 }

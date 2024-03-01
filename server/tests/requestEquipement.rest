@@ -1,0 +1,49 @@
+### Créer un équipement ###
+POST http://localhost:3630/equipements/create
+Content-Type: application/json
+
+{
+    "name": "Terrasse"
+}
+
+### Créer un équipement ###
+POST http://localhost:3630/equipements/create
+Content-Type: application/json
+
+{
+    "name": "Parking"
+}
+
+### Créer un équipement ###
+POST http://localhost:3630/equipements/create
+Content-Type: application/json
+
+{
+    "name": "Garage"
+}
+
+### Créer un équipement ###
+POST http://localhost:3630/equipements/create
+Content-Type: application/json
+
+{
+    "name": "Piscine"
+}
+
+
+### Afficher la liste des équipements ###
+GET http://localhost:3630/equipements
+
+### Afficher un équipement par ID ###
+GET http://localhost:3630/equipements/2
+
+### Mettre à jour un équipement par ID ###
+PUT http://localhost:3630/equipements/2
+Content-Type: application/json
+
+{
+    "name": "Piscine"
+}
+
+### Supprimer un équipement par ID ###
+DELETE http://localhost:3630/equipements/1

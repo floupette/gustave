@@ -15,20 +15,19 @@ class AuthController extends Controller
     {
         // Vérifiez si les informations de connexion sont valides
         $userModel = new UserModel();
-        $email = $this->request->getPost('email');
-        $password = $this->request->getPost('password');
+        $data = $this->request->getJSON(true);
+        $username = $data['email'];
+        $password = $data['password'];
 
-        $user = $userModel->where('email', $email)->first();
+        $user = $userModel->where('email', $username)->first();
 
         if ($user && password_verify($password, $user['password'])) {
             // Authentification réussie, démarrez la session et redirigez l'utilisateur
             session()->set('isLoggedIn', true);
             session()->set('email', $user['email']);
-            
-            // Utilisateur authentifié, retourner les détails de l'utilisateur
-            unset($user['password']); // Ne pas renvoyer le mot de passe dans la réponse
-            return $this->respond($user);
-            //return redirect()->to('/auth/login'); Voir pour la redirection
+            // Supprimer le champ de mot de passe avant de renvoyer les informations
+            unset($user['password']);
+            return $this->respond(['message' => $user['name'] . ' est connecté']);
         } else {
             // Authentification échouée, affichez un message d'erreur
             return $this->failUnauthorized("Nom d'utilisateur ou mot de passe incorrect");
@@ -42,18 +41,31 @@ class AuthController extends Controller
             // Si l'utilisateur n'est pas connecté, renvoyer une erreur non autorisée
             return $this->failUnauthorized('Vous n\'êtes pas connecté.');
         }
-
+    
         // Récupérer les informations de l'utilisateur connecté
         $email = session()->get('email');
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
-
+    
+        // Vérification si l'utilisateur existe
+        if (!$user) {
+            return $this->failNotFound('Utilisateur non trouvé.');
+        }
+    
+        // Récupération des réservations et des évaluations de l'utilisateur
+        $userId = $user['id'];
+        $reservations = $userModel->getReservation($userId);
+        $ratings = $userModel->getRating($userId);
+        $user['reservations'] = $reservations;
+        $user['ratings'] = $ratings;
+    
         // Supprimer le champ de mot de passe avant de renvoyer les informations
         unset($user['password']);
-
-        // Répondre avec les informations de l'utilisateur connecté
+    
+        // Répondre avec les informations de l'utilisateur connecté, y compris ses réservations et évaluations
         return $this->respond($user);
     }
+    
 
     public function logout()
     {

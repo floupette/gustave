@@ -15,6 +15,10 @@ class CreateLogementsTable extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'name' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
             'images' => [
                 'type' => 'TEXT',
                 'null' => true,
@@ -65,10 +69,15 @@ class CreateLogementsTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'rating' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'default' => 0,
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'deleted_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
             ],
         ]);
         $this->forge->addPrimaryKey('id');
