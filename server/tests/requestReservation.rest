@@ -1,0 +1,47 @@
+### Créer une réservation ###
+POST http://localhost:3630/reservation/create
+Content-Type: application/json
+
+{
+  "start_date": "2024-09-01",
+  "end_date": "2024-09-05",
+  "chef_cuisine": true,
+  "visite": false,
+  "logement_id": 6,
+  "user_id": 1
+}
+
+### Créer une réservation ###
+POST http://localhost:3630/reservation/create
+Content-Type: application/json
+
+{
+  "start_date": "2024-04-01",
+  "end_date": "2024-04-05",
+  "chef_cuisine": true,
+  "visite": false,
+  "logement_id": 6,
+  "user_id": 2
+}
+
+### Afficher la liste de toutes les réservations ###
+GET http://localhost:3630/reservation
+
+### Afficher une réservation par ID ###
+GET http://localhost:3630/reservation/1
+
+### Mettre à jour une réservation par ID ###
+PUT http://localhost:3630/reservation/1
+Content-Type: application/json
+
+{
+    "start_date": "2024-03-02",
+    "end_date": "2024-03-06",
+    "chef_cuisine": false,
+    "visite": true,
+    "logement_id": 6,
+    "user_id": 1
+}
+
+### Supprimer une réservation par ID ###
+DELETE http://localhost:3630/reservation/2

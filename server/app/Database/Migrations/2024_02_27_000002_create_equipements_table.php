@@ -20,6 +20,16 @@ class CreateEquipementsTable extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => 255,
             ],
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'deleted_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
+            ],
         ];
 
         // Ajout de la clé primaire

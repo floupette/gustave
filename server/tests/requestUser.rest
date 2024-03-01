@@ -6,7 +6,7 @@ Content-Type: application/json
 {
     "email": "test@example.com",
     "name": "Test Admin",
-    "tel": "0123456789",
+    "tel": "0223456789",
     "is_admin": true
 }
 
@@ -30,7 +30,7 @@ Content-Type: application/json
 {
     "email": "alexandre.buet@institutsolacroup.com",
     "name": "Alexandre Buet",
-    "tel": "0123456789",
+    "tel": "0423456789",
     "is_admin": true
 }
 
@@ -40,20 +40,21 @@ GET http://localhost:3630/users
 
 ### Récupérer un utilisateur par ID ###
 
-GET http://localhost:3630/users/17
+GET http://localhost:3630/users/1
 
 ### Mettre à jour un utilisateur par ID ###
 
-PUT http://localhost:3630/users/17
+PUT http://localhost:3630/users/1
 Content-Type: application/json
 
 {
     "email":"test@example.com",
-    "name": "Admin Test",
-    "tel": "9876543210",
-    "password": "1234"
+    "name": "Test Admin",
+    "tel": "123456789",
+    "password": "1234",
+    "is_admin": true
 }
 
 ### Supprimer un utilisateur par ID ###
 
-DELETE http://localhost:3630/users/1
+DELETE http://localhost:3630/users/4

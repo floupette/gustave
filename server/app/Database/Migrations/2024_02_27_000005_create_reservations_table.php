@@ -29,16 +29,28 @@ class CreateReservationsTable extends Migration
                 'type' => 'BOOLEAN',
                 'default' => false,
             ],
-            'logement' => [
+            'logement_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
             ],
-            'user' => [
+            'user_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
+            ],
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'updated_at' => [
+                'type' => 'TIMESTAMP',
+            ],
+            'deleted_at' => [
+                'type' => 'TIMESTAMP',
+                'null' => true,
             ],
         ]);
         $this->forge->addPrimaryKey('id');
+        $this->forge->addForeignKey('logement_id', 'logements', 'id');
+        $this->forge->addForeignKey('user_id', 'users', 'id');
         $this->forge->createTable('reservations');
     }
 

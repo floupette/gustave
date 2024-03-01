@@ -13,16 +13,31 @@ class EquipementController extends Controller
     // Méthode pour créer un équipement
     public function create()
     {
+
+        // Récupérer les données du formulaire
+        $data = $this->request->getJSON();
+
+        // Récupérer les données du formulaire
+        $name = $data->name;
+
         $model = new EquipementModel();
 
-        // Récupération des données depuis la requête HTTP POST
-        $data = $this->request->getPost();
+        $existingName = $model->where('name', $name)->first();
+
+        if ($existingName) {
+            return $this->fail('L\'équipement existe déjà.', 400);
+        } else {        
+            // Créer un nouvel equipement
+            $equipementData = [
+                'name' => $name,
+            ];
+        }
 
         // Insertion des données dans la base de données
-        $model->insert($data);
+        $model->insert($equipementData);
 
         // Réponse de succès
-        return $this->respondCreated(['message' => 'Equipement created successfully']);
+        return $this->respondCreated(['message' => $equipementData['name'] . ' crée avec succès']);
     }
 
     // Méthode pour afficher un équipement par ID
@@ -35,7 +50,7 @@ class EquipementController extends Controller
 
         // Vérification si l'équipement existe
         if (!$equipement) {
-            return $this->failNotFound('Equipement not found');
+            return $this->failNotFound('Equipement non trouvé');
         }
 
         // Réponse avec les données de l'équipement
@@ -59,14 +74,31 @@ class EquipementController extends Controller
     {
         $model = new EquipementModel();
 
-        // Récupération des données depuis la requête HTTP PUT ou PATCH
-        $data = $this->request->getRawInput();
+        // Récupération de l'equipement par son ID
+        $equipement = $model->find($id);
+
+        // Vérification si l'équipement existe
+        if (!$equipement) {
+            return $this->failNotFound('Equipement non trouvé');
+        }
+
+        // Récupération des données de la requête PUT
+        $data = $this->request->getJSON(true); // Récupération des données sous forme de tableau associatif
+
+        // Vérifier si l'equipement existe déjà
+        $existingEquipement = $model->where('name', $data['name'])->where('id !=', $id)->first();
+
+        if ($existingEquipement) {
+            return $this->fail('L\'équipement est déjà présent.', 400);
+        } 
+        // Mettre à jour les champs
+        $equipement['name'] = isset($data['name']) ? $data['name'] : $equipement['name'];
 
         // Mise à jour de l'équipement dans la base de données
-        $model->update($id, $data);
+        $model->update($id, $equipement);
 
         // Réponse de succès
-        return $this->respond(['message' => 'Equipement updated successfully']);
+        return $this->respond(['message' => $data['name'] . ' modifié avec succes']);
     }
 
     // Méthode pour supprimer un équipement par ID
@@ -74,15 +106,19 @@ class EquipementController extends Controller
     {
         $model = new EquipementModel();
 
+        
+        // Récupération de l'utilisateur par son ID
+        $equipement = $model->find($id);
+
         // Vérification si l'équipement existe
-        if (!$model->find($id)) {
-            return $this->failNotFound('Equipement not found');
+        if (!$equipement) {
+            return $this->failNotFound('Equipement non trouvé');
         }
 
         // Suppression de l'équipement de la base de données
         $model->delete($id);
 
         // Réponse de succès
-        return $this->respondDeleted(['message' => 'Equipement deleted successfully']);
+        return $this->respondDeleted(['message' =>  $equipement['name'] . '  supprimé avec succès']);
     }
 }

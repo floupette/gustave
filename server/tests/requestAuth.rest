@@ -4,8 +4,8 @@ POST http://localhost:3630/auth/login
 Content-Type: application/json
 
 {
-    "email": "test@example.com",
-    "password": "1234"
+    "email":"alexandre.buet@institutsolacroup.com",
+    "password": "9ffE7xnfPW"
 }
 
 ### Récupérer les informations de l'utilisateur connecté ###
