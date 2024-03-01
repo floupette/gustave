@@ -1,0 +1,17 @@
+### Authentification d'un utilisateur ###
+
+POST http://localhost:3630/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "1234"
+}
+
+### Récupérer les informations de l'utilisateur connecté ###
+
+GET http://localhost:3630/auth/info
+
+### Déconnexion de l'utilisateur ###
+
+GET http://localhost:3630/auth/logout
