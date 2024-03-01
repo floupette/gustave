@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "email":"alexandre.buet@institutsolacroup.com",
-    "password": "9ffE7xnfPW"
+    "password": "x7JOBaZUrj"
 }
 
 ### Récupérer les informations de l'utilisateur connecté ###
