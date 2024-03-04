@@ -3,8 +3,8 @@ POST http://localhost:3630/logements/create
 Content-Type: application/json
 
 {
-  "name": "Logement Test",
-  "images": "example_images",
+  "name": "Logement Test avec Image",
+  "images": "[example_image_1.jpg, example_image_2.jpg]",
   "secteur": "Rennes",
   "description": "Bel Appartement, vue mer",
   "tarif_bas": 100,
@@ -48,15 +48,15 @@ Content-Type: application/json
 GET http://localhost:3630/logements
 
 ### Afficher un logement par ID avec ses équipements ###
-GET http://localhost:3630/logements/6
+GET http://localhost:3630/logements/8
 
 ### Mettre à jour un logement par ID avec ses équipements ###
-PUT http://localhost:3630/logements/6
+PUT http://localhost:3630/logements/8
 Content-Type: application/json
 
 {
-  "name": "Updated Logement",
-  "images": "updated_images",
+  "name": "Updated Logement avec Images",
+  "images": "[example_image_1.jpg, example_image_2.jpg]",
   "secteur": "updated_secteur",
   "description": "updated_description",
   "tarif_bas": 120,
