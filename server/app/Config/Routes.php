@@ -9,6 +9,9 @@ use CodeIgniter\Router\RouteCollection;
 // Route par défaut pour la page d'accueil
 $routes->get('/', 'Home::index');
 
+// Route pour récuperer les images uploader
+$routes->get('uploads/(:segment)', 'UploadController::show/$1');
+
 // Routes pour l'authentification (login & logout)
 $routes->group('auth', function ($routes) {
     $routes->post('login', 'AuthController::login');
