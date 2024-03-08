@@ -57,29 +57,5 @@ class LogementModel extends Model
             ->get()
             ->getResultArray();
     }
-
-    public function uploadImages($imageFiles) {
-        $imageNames = [];
-    
-        // Génération d'un seul nom de fichier unique pour chaque image
-        $uniqueFileName = sha1(uniqid(rand(), true));
-    
-        foreach ($imageFiles as $imageFile) {
-            // Obtenez l'extension du fichier
-            $extension = $imageFile->getExtension();
-    
-            // Générez le nom de fichier complet
-            $imageName = $uniqueFileName . '.' . $extension;
-    
-            // Déplacement du fichier vers le répertoire de stockage des images
-            $imageFile->move(WRITEPATH . 'uploads', $imageName);
-    
-            // Ajout du nom de l'image au tableau
-            $imageNames[] = $imageName;
-        }
-    
-        // Retourner le tableau des noms des images pour stockage dans la base de données
-        return $imageNames;
-    }
     
 }
