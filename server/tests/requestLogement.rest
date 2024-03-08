@@ -1,10 +1,10 @@
-### Créer un logement avec ses équipements ###
+### Créer un logement avec ses équipements
 POST http://localhost:3630/logements/create
 Content-Type: application/json
-
+### A FAIRE SUR POSTMAN, PAS POSSIBLE EN FORMAT JSON, METTRE FORMAT MULTIPART FORM-DATA
 {
-  "name": "Logement Test avec Image",
-  "images": "[example_image_1.jpg, example_image_2.jpg]",
+  "name": "Logement 5 Test avec Image",
+  "images": ["La_maison_dans_les_bois.jpg", "Exemple.jpg"],
   "secteur": "Rennes",
   "description": "Bel Appartement, vue mer",
   "tarif_bas": 100,
@@ -21,42 +21,19 @@ Content-Type: application/json
   ]
 }
 
-### Créer un logement avec ses équipements ###
-POST http://localhost:3630/logements/create
-Content-Type: application/json
-
-{
-  "name": "Logement 2",
-  "images": "example_images",
-  "secteur": "Rennes",
-  "description": "Bel Appartement, vue mer",
-  "tarif_bas": 100,
-  "tarif_moyen": 150,
-  "tarif_haut": 200,
-  "m_carre": 150,
-  "chambre": 3,
-  "salle_de_bain": 2,
-  "categorie": "Appart",
-  "type": "Type",
-  "equipements": [
-    {"id": 4},
-    {"id": 3}
-  ]
-}
-
 ### Afficher la liste des logements avec leurs équipements ###
 GET http://localhost:3630/logements
 
 ### Afficher un logement par ID avec ses équipements ###
-GET http://localhost:3630/logements/6
+GET http://localhost:3630/logements/9
 
 ### Mettre à jour un logement par ID avec ses équipements ###
 PUT http://localhost:3630/logements/8
 Content-Type: application/json
-
+### A FAIRE SUR POSTMAN, PAS POSSIBLE EN FORMAT JSON, METTRE FORMAT MULTIPART FORM-DATA
 {
-  "name": "Updated Logement avec Images",
-  "images": "[example_image_1.jpg, example_image_2.jpg]",
+  "name": "Updated Logement",
+  "images": ["La_Galibe.jpg"],
   "secteur": "updated_secteur",
   "description": "updated_description",
   "tarif_bas": 120,
@@ -76,4 +53,4 @@ Content-Type: application/json
 }
 
 ### Supprimer un logement par ID ###
-DELETE http://localhost:3630/logements/5
+DELETE http://localhost:3630/logements/10
