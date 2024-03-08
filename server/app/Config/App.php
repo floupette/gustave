@@ -16,7 +16,7 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = 'http://localhost:8080/';
+    public string $baseURL = 'http://localhost:3630/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -155,7 +155,7 @@ class App extends BaseConfig
      *
      * @var array<string, string>
      */
-    public array $proxyIPs = [];
+    public array $proxyIPs = ['localhost'];
 
     /**
      * --------------------------------------------------------------------------
