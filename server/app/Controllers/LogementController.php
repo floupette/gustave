@@ -13,6 +13,7 @@ class LogementController extends Controller
 {
     use ResponseTrait;
 
+    // Méthode pour créer un logement
     public function create()
     {
         // Récupérer les données du formulaire
@@ -30,6 +31,7 @@ class LogementController extends Controller
         $salle_de_bain = $data->salle_de_bain;
         $categorie = $data->categorie;
         $type = $data->type;
+        $images = $data->images;
     
         // Équipements associés au logement
         $equipements = $data->equipements;
@@ -53,27 +55,27 @@ class LogementController extends Controller
             'chambre' => $chambre,
             'salle_de_bain' => $salle_de_bain,
             'categorie' => $categorie,
-            'type' => $type
+            'type' => $type,
+            'images' => $images,
         ];
     
         // Vérification si des fichiers images sont envoyés
         if ($images = $this->request->getFiles()) {
-            $uploadedImages = [];
 
             foreach ($images as $image) {
                 // Vérification de la validité du fichier image
                 if ($image->isValid() && !$image->hasMoved()) {
                     // Upload de l'image
-                    $uploadedImages[] = $model->uploadImages([$image]); // Passer le fichier image sous forme de tableau
+                    // Passer le fichier image sous forme de tableau
+                    array_push($logementData['images'], $model->uploadImages([$image]));
                 } else {
                     // Gestion des erreurs d'upload d'image
                     return $this->fail('Erreur lors de l\'upload de l\'image', 500);
                 }
             }
-
-            // Attribution des noms des images au logement
-            $logementData['images'] = json_encode($uploadedImages);
         }
+
+        $logementData['images'] = json_encode($logementData['images']);
 
         // Insertion des données du logement dans la base de données
         $model->insert($logementData);
@@ -122,21 +124,24 @@ class LogementController extends Controller
     
         // Vérifier si $logement['images'] est null
         if (!is_null($logement['images'])) {
+
+            //var_dump($logement['images']);
+
             // Convertir les images en tableau s'il s'agit d'une chaîne JSON
-            $logement['images'] = json_decode($logement['images'], true);
+            $images = json_decode($logement['images'], true);
 
             // Vérifier si la conversion en tableau a réussi
-            if (is_array($logement['images'])) {
+            if ($images !== null) {
                 // Ajouter le chemin du dossier où sont stockées les images
                 $basePath = base_url() . 'uploads/';
 
                 // Ajouter le chemin complet de chaque image
                 $logement['images'] = array_map(function ($imageName) use ($basePath) {
                     return $basePath . $imageName;
-                }, $logement['images']);
+                }, $images);
             } else {
-                // Si la conversion en tableau a échoué, attribuer un tableau vide à $logement['images']
-                $logement['images'] = [];
+                // Si la conversion en tableau a échoué, attribuer un tableau contenant l'URL actuelle à $logement['images']
+                $logement['images'] = [base_url() . $logement['images']];
             }
         } else {
             // Si $logement['images'] est null, attribuer un tableau vide à $logement['images']
@@ -177,6 +182,9 @@ class LogementController extends Controller
         foreach ($logements as &$logement) {
             // Vérifier si $logement['images'] est null
             if (!is_null($logement['images'])) {
+
+                //var_dump($logement['images']);
+
                 // Convertir les images en tableau s'il s'agit d'une chaîne JSON
                 $logement['images'] = json_decode($logement['images'], true);
                 
@@ -215,7 +223,6 @@ class LogementController extends Controller
     }
     
 
-
     // Méthode pour mettre à jour un logement par ID avec ses équipements
     public function update($id)
     {
@@ -245,27 +252,27 @@ class LogementController extends Controller
             'chambre' => $data['chambre'],
             'salle_de_bain' => $data['salle_de_bain'],
             'categorie' => $data['categorie'],
-            'type' => $data['type']
+            'type' => $data['type'],
+            'images' => $data['images']
         ];
 
         // Vérification si des fichiers images sont envoyés
         if ($images = $this->request->getFiles()) {
-            $uploadedImages = [];
 
-            foreach ($images['images'] as $image) {
+            foreach ($images as $image) {
                 // Vérification de la validité du fichier image
                 if ($image->isValid() && !$image->hasMoved()) {
                     // Upload de l'image
-                    $uploadedImages[] = $model->uploadImage($image);
+                    // Passer le fichier image sous forme de tableau
+                    array_push($logementData['images'], $model->uploadImages([$image]));
                 } else {
                     // Gestion des erreurs d'upload d'image
                     return $this->fail('Erreur lors de l\'upload de l\'image', 500);
                 }
             }
-
-            // Attribution des noms des images au logement
-            $logementData['images'] = json_encode($uploadedImages);
         }
+
+        $logementData['images'] = json_encode($logementData['images']);
 
         $model->update($id, $logementData);
     

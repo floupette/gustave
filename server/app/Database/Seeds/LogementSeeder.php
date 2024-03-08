@@ -11,7 +11,7 @@ class LogementSeeder extends Seeder
         $logements = [
             [   
                 'name' => 'Belle époque',
-                'images' => 'uploads/Belle_epoque.jpg',
+                'images' => "[\"Belle_epoque.jpg\",\"Belle_epoque.jpg\"]",
                 'secteur' => 'Fontainbleau',
                 'description' => 'Le faste des Rois. Joséphine de Beauharnais y a résidé',
                 'tarif_bas' => 3000,
@@ -27,7 +27,7 @@ class LogementSeeder extends Seeder
             ],
             [
                 'name' => 'Buron des Cimes',
-                'images' => 'uploads/Buron_des_Cimes.jpg',
+                'images' => "[\"Buron_des_Cimes.jpg\"]",
                 'secteur' => 'Serre-Chevalier',
                 'description' => 'Le luxe au coeur des montagnes! ',
                 'tarif_bas' => 8000,
@@ -43,7 +43,7 @@ class LogementSeeder extends Seeder
             ],
             [
                 'name' => 'Guarrigue',
-                'images' => 'uploads/Garrigue.jpg',
+                'images' => "[\"Garrigue.jpg\"]",
                 'secteur' => 'Saint Maximin',
                 'description' => 'Monter sur la Sainte Victoire et voir la mer, une fois dans sa vie! Savourer le beurre de truffe lors d’apéritifs trainants!',
                 'tarif_bas' => 3000,
@@ -59,7 +59,7 @@ class LogementSeeder extends Seeder
             ],
             [
                 'name' => 'L\'alpage',
-                'images' => 'uploads/L_alapage.jpg',
+                'images' => "[\"L_alapage.jpg\"]",
                 'secteur' => 'Voiron',
                 'description' => 'La douceur des premières pentes, le repos de l’âme!',
                 'tarif_bas' => 2000,
@@ -75,7 +75,7 @@ class LogementSeeder extends Seeder
             ],
             [
                 'name' => 'La Cabane',
-                'images' => 'uploads/La_Cabane.jpg',
+                'images' => "[\"La_Cabane.jpg\"]",
                 'secteur' => 'Cahors',
                 'description' => 'Un nid parfait pour renouveler votre amour!',
                 'tarif_bas' => 1500,
@@ -91,7 +91,7 @@ class LogementSeeder extends Seeder
             ],
             [
                 'name' => 'La Galibe',
-                'images' => 'uploads/La_Galibe.jpg',
+                'images' => "[\"La_Galibe.jpg\"]",
                 'secteur' => 'Malestroit',
                 'description' => 'Terre de Chouans!',
                 'tarif_bas' => 3000,
@@ -107,7 +107,7 @@ class LogementSeeder extends Seeder
             ],
             [
                 'name' => 'La maison dans les bois',
-                'images' => 'uploads/La_maison_dans_les_bois.jpg',
+                'images' => "[\"La_maison_dans_les_bois.jpg\"]",
                 'secteur' => 'Luz Saint Sauveur',
                 'description' => 'Vous ne vous arrêterez pas ici, vous vous équiperez et partirez à l’assaut des cimes!',
                 'tarif_bas' => 1500,

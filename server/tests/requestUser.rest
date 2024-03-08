@@ -40,16 +40,16 @@ GET http://localhost:3630/users
 
 ### Récupérer un utilisateur par ID ###
 
-GET http://localhost:3630/users/1
+GET http://localhost:3630/users/5
 
 ### Mettre à jour un utilisateur par ID ###
 
-PUT http://localhost:3630/users/1
+PUT http://localhost:3630/users/5
 Content-Type: application/json
 
 {
-    "email":"test@example.com",
-    "name": "Test Admin",
+    "email":"alexandre.buet@institutsolacroup.com",
+    "name": "Alexandre Buet",
     "tel": "123456789",
     "password": "1234",
     "is_admin": true
