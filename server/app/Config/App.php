@@ -155,7 +155,7 @@ class App extends BaseConfig
      *
      * @var array<string, string>
      */
-    public array $proxyIPs = ['localhost'];
+    public array $proxyIPs = [];
 
     /**
      * --------------------------------------------------------------------------

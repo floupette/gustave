@@ -15,7 +15,7 @@ const Navbar = () => {
     },[]);
 
     const handleClick = (path) => {
-       navigate(path)
+        navigate(path);
      };
 
     return (
@@ -24,22 +24,22 @@ const Navbar = () => {
                 {console.log()}
                 <section className="left-navbar">
                     <Link to={'/home'}>
-                    <img src={logoGustave} alt="logo-vacances-chez-gustave" />
+                    <img src={logoGustave} alt="logo-vacances-chez-gustave" id="image-navbar"/>
                     </Link>
                 </section>
 
                 <div className="right-navbar">
-                   { !user.user &&  <button onClick={handleClick('/connexion')}>
+                   { !user.user &&  <button onClick={() => handleClick('/connexion')}>
                         Se connecter
                     </button>}
-                    <button onClick={handleClick('/nous')}>
+                    <button onClick={() => handleClick('/nous')}>
                         Qui sommes-nous?
                     </button>
-                    {user.user && <button onClick={handleClick('/connexion')}>
+                    {user.user && <button onClick={() => handleClick('/connexion')}>
                         Déconnexion
                     </button>}
-                    {user.user && <button onClick={handleClick('/profil')}>
-                    <img src={`https://ui-avatars.com/api/?name=${user?.name}&background=random&color=fff&bold=true&name`} className="logoInitial" alt="Avatar User"/>
+                    {user.user && <button onClick={() => handleClick('/profil')}>
+                    <img src={`https://ui-avatars.com/api/?name=${user?.user?.name}&background=random&color=fff`} className="logoInitial" alt="Avatar User"/>
                     </button>}
                 </div>
                 
