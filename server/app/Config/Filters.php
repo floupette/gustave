@@ -2,7 +2,7 @@
 
 namespace Config;
 
-use App\Filters\CORSFilter;
+use Fluent\Cors\Filters\CorsFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -25,7 +25,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cors' => CORSFilter::class,
+        'cors' => CorsFilter::class,
 
     ];
 
@@ -37,10 +37,10 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
-            'cors'
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            //'cors',
         ],
         'after' => [
             'toolbar',
@@ -69,5 +69,10 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [];
+    public array $filters = [
+        'cors' => [
+            'before' => ['*'],
+            'after' => ['*']
+        ],
+    ];
 }

@@ -29,17 +29,17 @@ const Navbar = () => {
                 </section>
 
                 <div className="right-navbar">
-                   { !user.user &&  <button onClick={handleClick('/connexion')}>
+                    { !user.user &&  <button onClick={handleClick('/connexion')}>
                         Se connecter
                     </button>}
                     <button onClick={handleClick('/nous')}>
                         Qui sommes-nous?
                     </button>
-                    {user.user && <button onClick={handleClick('/connexion')}>
+                    {user.user && <button onClick={handleClick('/deconnexion')}>
                         Déconnexion
                     </button>}
                     {user.user && <button onClick={handleClick('/profil')}>
-                    <img src={`https://ui-avatars.com/api/?name=${user?.name}&background=random&color=fff&bold=true&name`} className="logoInitial" alt="Avatar User"/>
+                    <img src={`https://ui-avatars.com/api/?name=${user?.user?.name}&background=random&color=fff`} className="logoInitial" alt="Avatar User"/>
                     </button>}
                 </div>
                 
