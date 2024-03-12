@@ -38,9 +38,9 @@ const App = () => {
               <Route path='/connexion' element={<Connexion/>} />
               <Route path='/nous' element={<h1>Nous</h1>} />
               <Route path='/home' element={<Home/>} />
-
+                
             </Routes>
-          </UserContext.Provider>
+      </UserContext.Provider>
     )
 }
 
