@@ -47,5 +47,62 @@ class ReservationModel extends Model
                         ->get()
                         ->getRowArray();
     }
+
+    public function calculateReservationPrice($start_date, $end_date, $logement_id) {
+        // Récupérer les tarifs du logement
+        $logementModel = new LogementModel();
+        $logement = $logementModel->find($logement_id);
     
+        if (!$logement) {
+            return false; // Logement non trouvé
+        }
+    
+        // Récupérer les tarifs bas, moyens et hauts du logement
+        $tarif_bas = $logement['tarif_bas'] / 7; // Tarif par nuitée
+        $tarif_moyen = $logement['tarif_moyen'] / 7; // Tarif par nuitée
+        $tarif_haut = $logement['tarif_haut'] / 7; // Tarif par nuitée
+    
+        // Convertir les dates en objets DateTime pour faciliter la comparaison
+        $start_date = new \DateTime($start_date);
+        $end_date = new \DateTime($end_date);
+    
+        // Déterminer la période de réservation
+        $periodes_basse = [['01-03', '04-15'], ['10-16', '12-22']]; // Exemple : du 3 Janvier au 15 Avril et du 16 Octobre au 22 Décembre considéré comme basse saison
+        $periodes_moyenne = [['04-16', '06-30'], ['09-01', '10-15']]; // Exemple : du 16 Avril au 30 Juin et du 1er Septembre au 15 Octobre considéré comme moyenne saison
+
+    
+        $start_month_day = $start_date->format('m-d');
+        $end_month_day = $end_date->format('m-d');
+    
+        $is_basse_saison = false;
+        foreach ($periodes_basse as $periode) {
+            if ($start_month_day >= $periode[0] && $end_month_day <= $periode[1]) {
+                $is_basse_saison = true;
+                break;
+            }
+        }
+    
+        if ($is_basse_saison) {
+            $tarif = $tarif_bas; // Basse saison
+        } else {
+            $is_moyenne_saison = false;
+            foreach ($periodes_moyenne as $periode) {
+                if ($start_month_day >= $periode[0] && $end_month_day <= $periode[1]) {
+                    $is_moyenne_saison = true;
+                    break;
+                }
+            }
+    
+            $tarif = $is_moyenne_saison ? $tarif_moyen : $tarif_haut; // Moyenne saison ou haute saison par défaut
+        }
+    
+        // Calculer la durée de la réservation en jours
+        $interval = $start_date->diff($end_date);
+        $days_difference = $interval->days;
+
+        // Calculer le tarif total en fonction du nombre de nuits, en arrondissant vers le haut
+        $tarif_total = ceil($tarif * $days_difference);
+    
+        return $tarif_total;
+    }
 }

@@ -65,6 +65,13 @@ class ReservationController extends Controller
             return $this->fail('Ce logement est déjà réservé pour cette période.', 400);
         }
 
+        // Calcul du tarif de la réservation
+        $tarif = $model->calculateReservationPrice($start_date, $end_date, $logementid);
+
+        if ($tarif === false) {
+            return $this->fail('Le logement associé à la réservation est introuvable.', 404);
+        }
+
         // Créer un nouveau logement
         $reservationData = [
             'start_date' => $start_date,
@@ -73,6 +80,7 @@ class ReservationController extends Controller
             'visite' => $visite,
             'logement_id' => $logementid,
             'user_id' => $userid,
+            'tarif' => $tarif,
         ];
 
         // Insérer la réservation dans la base de données
@@ -95,6 +103,9 @@ class ReservationController extends Controller
         if (!$reservation) {
             return $this->fail('Réservation non trouvée.', 404);
         }
+
+        // Calculer le tarif de la réservation
+        $reservation['tarif'] = $model->calculateReservationPrice($reservation['start_date'], $reservation['end_date'], $reservation['logement_id']);
 
         // Récupération des notes associées à la réservation
         $ratings = $model->getRating($id);
@@ -123,6 +134,7 @@ class ReservationController extends Controller
         foreach ($reservations as &$reservation) {
             $reservationId = $reservation['id'];
             $ratings = $model->getRating($reservationId);
+            $reservation['tarif'] = $model->calculateReservationPrice($reservation['start_date'], $reservation['end_date'], $reservation['logement_id']);
             $user = $model->getUser($reservation['user_id']);
             $reservation['ratings'] = $ratings;
             $reservation['user'] = $user;
