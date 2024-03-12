@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./searchbar.css"
 
 function SearchBar() {
     const [lieu, setLieu] = useState('');
@@ -35,7 +36,8 @@ function SearchBar() {
                 value={dateArrivee}
                 onChange={(e) => setDateArrivee(e.target.value)}
             />
-            <input
+            <div className='nombres'>
+            <input 
                 type="number"
                 placeholder="Nombre Adultes"
                 value={adultes}
@@ -56,7 +58,8 @@ function SearchBar() {
                 onChange={(e) => setChambres(e.target.value)}
                 min="1"
             />
-            <button type="submit">Rechercher</button>
+            </div>
+            <button type="submit" id='search'>Rechercher</button>
         </form>
     );
 }

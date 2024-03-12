@@ -2,3 +2,48 @@
 .title {
     font-size: 6em;
 }
+.image-presentation{
+    background-image: url('../../assets/design-calli-copie.jpg');
+    background-repeat:no-repeat;
+    background-size: cover;
+    height: 37em;
+    width: 89em;
+}
+.Search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.blur-background {
+    position: relative;
+    width: 100%; /* ou la largeur souhaitée */
+    height: 300px; /* ou la hauteur souhaitée */
+    overflow: hidden;
+  }
+  
+  .blur-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* background-image: url('../../assets/design-calli-copie.jpg'); */
+    filter: blur(8px);
+    z-index: 1;
+  }
+  
+  .text-overlay {
+    position: absolute;
+    top: 50%; /* Centrer le texte verticalement */
+    left: 50%; /* Centrer le texte horizontalement */
+    transform: translate(-50%, -50%); /* Ajustement pour un centrage précis */
+    color: #145C56; /* La couleur du texte */
+    z-index: 2; /* Assurez-vous que le texte est au-dessus de l'arrière-plan flou */
+  }
