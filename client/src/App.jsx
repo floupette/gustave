@@ -5,9 +5,7 @@ import Home from "./pages/Home/Home.jsx"
 import { useEffect, useState } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
 
-
 const App = () => {
-
     // State pour gérer la data du fetch sur l'Utilisateur
     const [user, setUser] = useState()
 
@@ -22,12 +20,9 @@ const App = () => {
         fetch(`http://localhost:3630/auth/info`, {credentials: 'include'})
             .then(Resultat => Resultat.json())
             .then(Data => {
-                //console.log(Data);
                 setUser(Data);
-                console.log({'User ' : Data });
             })
             .catch(Error => {
-                console.error(Error);
                 /* Permet de gérer l'erreur.
                   S'il y a une erreur d'authentification alors on redirige vers Login
                 */

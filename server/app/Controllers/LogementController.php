@@ -246,7 +246,7 @@ class LogementController extends Controller
     }
     
 
-   // Méthode pour mettre à jour un logement par ID avec ses équipements
+    // Méthode pour mettre à jour un logement par ID avec ses équipements
     public function update($id)
     {
 
@@ -264,10 +264,6 @@ class LogementController extends Controller
         }
 
         //var_dump($data);
-
-        // Récupérer les fichiers téléchargés
-        $uploadedFiles = $this->request->getFiles();
-    
         
         // Récupérer les données du formulaire
         $name = $data['name'];
@@ -285,6 +281,12 @@ class LogementController extends Controller
         // Créer un tableau pour stocker les noms des fichiers téléchargés
         $imageNames = [];
 
+        // Récupérer les fichiers téléchargés
+        $uploadedFiles = $this->request->getFiles();
+    
+        // Mettre à jour les images du logement
+        $existingImages = json_decode($logement['images'], true);
+  
         // Vérification si des fichiers images sont envoyés
         if (!empty($uploadedFiles)) {
             foreach ($uploadedFiles['images'] as $file) {
@@ -312,17 +314,18 @@ class LogementController extends Controller
             }
         }
 
-        // Mettre à jour les images du logement
-        $existingImages = json_decode($logement['images'], true);
-        foreach ($existingImages as $existingImage) {
+       foreach ($existingImages as $existingImage) {
             if (!in_array($existingImage, $imageNames)) {
                 // Supprimer l'image du dossier uploads si elle est supprimée du logement
                 unlink(WRITEPATH . 'uploads/' . $existingImage);
             }
         }
 
+        // Fusionner les noms des nouvelles images avec les anciennes images
+        $allImageNames = array_merge($existingImages, $imageNames);
+
         // Mettre à jour les images du logement dans la base de données
-        $model->update($id, ['images' => json_encode($imageNames)]);
+        $model->update($id, ['images' => json_encode($allImageNames)]);
         
         // Mettre à jour les autres champs du logement
         $logementData = [
@@ -359,7 +362,6 @@ class LogementController extends Controller
         // Réponse de succès
         return $this->respondUpdated(['message' => 'Logement mis à jour avec succès']);
     }
-
     
     
     // Méthode pour supprimer un logement par ID

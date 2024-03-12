@@ -35,10 +35,10 @@ const Navbar = () => {
                     <button onClick={() => handleClick('/nous')}>
                         Qui sommes-nous?
                     </button>
-                    {user.user && <button onClick={() => handleClick('/connexion')}>
+                    {user.user && <button onClick={handleClick('/deconnexion')}>
                         Déconnexion
                     </button>}
-                    {user.user && <button onClick={() => handleClick('/profil')}>
+                    {user.user && <button onClick={handleClick('/profil')}>
                     <img src={`https://ui-avatars.com/api/?name=${user?.user?.name}&background=random&color=fff`} className="logoInitial" alt="Avatar User"/>
                     </button>}
                 </div>

@@ -11,6 +11,7 @@ class AuthController extends Controller
 
     use ResponseTrait;
 
+
     public function login()
     {
         // Vérifiez si les informations de connexion sont valides
@@ -18,6 +19,8 @@ class AuthController extends Controller
         $data = $this->request->getJSON(true);
         $username = $data['email'];
         $password = $data['password'];
+
+        var_dump($data);
 
         $user = $userModel->where('email', $username)->first();
 

@@ -3,12 +3,12 @@ POST http://localhost:3630/reservation/create
 Content-Type: application/json
 
 {
-  "start_date": "2024-09-01",
-  "end_date": "2024-09-05",
+  "start_date": "2024-04-21",
+  "end_date": "2024-04-29",
   "chef_cuisine": true,
   "visite": false,
-  "logement_id": 6,
-  "user_id": 1
+  "logement_id": 5,
+  "user_id": 5
 }
 
 ### Créer une réservation ###

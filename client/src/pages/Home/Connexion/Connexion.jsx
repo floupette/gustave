@@ -29,9 +29,6 @@ const Connexion = () => {
                 body: JSON.stringify(loginData),
             });
 
-            // Conversion de la réponse en JSON
-            const data = await response.json();
-
             if (response.ok) {
                 // Si la connexion est réussie, naviguer vers '/home'
                 navigate('/home');
