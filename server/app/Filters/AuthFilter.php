@@ -13,9 +13,8 @@ class AuthFilter implements FilterInterface
         // Vérifie si l'utilisateur est connecté
         if (!session()->get('isLoggedIn')) {
             // Si l'utilisateur n'est pas connecté, redirigez-le vers la page de connexion
-            return redirect()->to('/login');
+            return redirect()->to('http://localhost:5173/connexion');
         }
-        
         // L'utilisateur est connecté, autorisez la requête à poursuivre
         return $request;
     }

@@ -20,7 +20,7 @@ class AuthController extends Controller
         $username = $data['email'];
         $password = $data['password'];
 
-        var_dump($data);
+        //var_dump($data);
 
         $user = $userModel->where('email', $username)->first();
 
@@ -30,7 +30,14 @@ class AuthController extends Controller
             session()->set('email', $user['email']);
             // Supprimer le champ de mot de passe avant de renvoyer les informations
             unset($user['password']);
-            return $this->respond(['message' => $user['name'] . ' est connecté']);
+            // Retournez les données souhaitées sous forme de JSON
+            $response = [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'message' => $user['name'] . ' est connecté'
+            ];
+            return $this->response->setJSON($response);
         } else {
             // Authentification échouée, affichez un message d'erreur
             return $this->failUnauthorized("Nom d'utilisateur ou mot de passe incorrect");
@@ -72,6 +79,9 @@ class AuthController extends Controller
 
     public function logout()
     {
+        // Supprimer le cookie de session
+        $this->response->setCookie('ci_session', '', time() - 3600, '/');
+
         // Déconnectez l'utilisateur en détruisant la session
         $session = session();
         $session->destroy();
