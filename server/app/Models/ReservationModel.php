@@ -66,43 +66,55 @@ class ReservationModel extends Model
         $start_date = new \DateTime($start_date);
         $end_date = new \DateTime($end_date);
     
+        // Ajouter un jour à la date de fin pour inclure la nuitée de départ
+        $end_date->modify('-1 day');
+    
         // Déterminer la période de réservation
-        $periodes_basse = [['01-03', '04-15'], ['10-16', '12-22']]; // Exemple : du 3 Janvier au 15 Avril et du 16 Octobre au 22 Décembre considéré comme basse saison
-        $periodes_moyenne = [['04-16', '06-30'], ['09-01', '10-15']]; // Exemple : du 16 Avril au 30 Juin et du 1er Septembre au 15 Octobre considéré comme moyenne saison
-
+        $periodes_basses = [['01-03', '04-15'], ['10-16', '12-22']]; // Exemple : du 3 Janvier au 15 Avril et du 16 Octobre au 22 Décembre considéré comme basse saison
+        $periodes_hautes = [['07-01', '08-31'], ['12-23', '01-02']]; // Exemple : du 1er Juillet au 31 Août et du 23 Décembre au 2 Janvier considéré comme moyenne saison
     
-        $start_month_day = $start_date->format('m-d');
-        $end_month_day = $end_date->format('m-d');
+        // Initialiser les compteurs pour chaque saison
+        $basse_saison_nights = 0;
+        $moyenne_saison_nights = 0;
+        $haute_saison_nights = 0;
     
-        $is_basse_saison = false;
-        foreach ($periodes_basse as $periode) {
-            if ($start_month_day >= $periode[0] && $end_month_day <= $periode[1]) {
-                $is_basse_saison = true;
-                break;
-            }
-        }
-    
-        if ($is_basse_saison) {
-            $tarif = $tarif_bas; // Basse saison
-        } else {
-            $is_moyenne_saison = false;
-            foreach ($periodes_moyenne as $periode) {
-                if ($start_month_day >= $periode[0] && $end_month_day <= $periode[1]) {
-                    $is_moyenne_saison = true;
+        // Parcourir chaque jour de la réservation
+        $current_date = clone $start_date;
+        while ($current_date <= $end_date) {
+            $current_month_day = $current_date->format('m-d');
+            $is_basse_saison = false;
+            foreach ($periodes_basses as $periode) {
+                if ($current_month_day >= $periode[0] && $current_month_day <= $periode[1]) {
+                    $is_basse_saison = true;
                     break;
                 }
             }
-    
-            $tarif = $is_moyenne_saison ? $tarif_moyen : $tarif_haut; // Moyenne saison ou haute saison par défaut
+            if ($is_basse_saison) {
+                $basse_saison_nights++;
+            } else {
+                $is_haute_saison = false;
+                foreach ($periodes_hautes as $periode) {
+                    if ($current_month_day >= $periode[0] && $current_month_day <= $periode[1]) {
+                        $is_haute_saison = true;
+                        break;
+                    }
+                }
+                if ($is_haute_saison) {
+                    $haute_saison_nights++;
+                } else {
+                    $moyenne_saison_nights++;
+                }
+            }
+            $current_date->modify('+1 day');
         }
     
-        // Calculer la durée de la réservation en jours
-        $interval = $start_date->diff($end_date);
-        $days_difference = $interval->days;
-
-        // Calculer le tarif total en fonction du nombre de nuits, en arrondissant vers le haut
-        $tarif_total = ceil($tarif * $days_difference);
+        // Calculer le tarif total en fonction du nombre de nuits dans chaque saison
+        $tarif_total = ($basse_saison_nights * $tarif_bas) + ($moyenne_saison_nights * $tarif_moyen) + ($haute_saison_nights * $tarif_haut);
+    
+        // Arrondir le tarif total à l'unité
+        $tarif_total = ceil($tarif_total);
     
         return $tarif_total;
-    }
+    }    
+    
 }

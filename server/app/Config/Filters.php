@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Filters\AdminFilter;
+use App\Filters\AuthFilter;
 use Fluent\Cors\Filters\CorsFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
@@ -26,7 +28,8 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'cors' => CorsFilter::class,
-
+        'auth' => AuthFilter::class,
+        'admin' => AdminFilter::class,
     ];
 
     /**
