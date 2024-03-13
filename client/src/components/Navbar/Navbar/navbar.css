@@ -9,8 +9,8 @@
     background-color: #145C56;
 }
 
-img {
-    width: 120px;
+#image-navbar {
+    width: 100px;
     border-radius: 30px;
 }
 .right-navbar{
@@ -25,4 +25,8 @@ img {
     border-radius: 10px;
     border: none;
     padding: 12px;
+}
+.logoInitial{
+    border-radius: 50px;
+
 }

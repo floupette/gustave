@@ -1,4 +1,52 @@
-
-.title {
-    font-size: 6em;
+*{
+  padding: 0;
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
+#logomail {
+  width: 200px;
+  height: auto;
+  margin: 40px;
+  border-radius: 30px;
+}
+
+body {
+  background-color: rgb(252, 247, 235);
+}
+
+.image-presentation{
+    background-image: url('../../assets/design-calli.jpg');
+    position: relative;
+    background-repeat:no-repeat;
+    background-size: cover;
+    height: 37em;
+    width: 100%;
+}
+
+.blur-background {
+    display: flex;
+    border-radius: 35px;
+    position: absolute;
+    top: 10%;
+    left: 25%;
+    width: 500px; /* ou la largeur souhaitée */
+    height: 200px; /* ou la hauteur souhaitée */
+    backdrop-filter: blur(5px) brightness(1.1);
+    z-index: 1;
+    
+  }
+
+
+  .text-overlay {
+    font-size: 24px;
+    position: relative;
+    font-style: italic;
+    line-height: 1.5;
+    top: 50%; /* Centrer le texte verticalement */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #145C56;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+  }

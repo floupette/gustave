@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import "./searchbar.css"
 
 function SearchBar() {
     const [lieu, setLieu] = useState('');
@@ -16,7 +17,7 @@ function SearchBar() {
     };
 
     return (
-        <form className="search-bar" onSubmit={handleSubmit}>
+        <form className="Search-bar" onSubmit={handleSubmit}>
             <input
                 type="text"
                 placeholder="Où allez-vous ?"
@@ -35,27 +36,29 @@ function SearchBar() {
                 value={dateArrivee}
                 onChange={(e) => setDateArrivee(e.target.value)}
             />
-            <input
-                type="number"
-                placeholder="Nombre Adultes"
-                value={adultes}
-                onChange={(e) => setAdultes(e.target.value)}
-                min="1"
-            />
-            <input
-                type="number"
-                placeholder="Nombre d'Enfants"
-                value={enfants}
-                onChange={(e) => setEnfants(e.target.value)}
-                min="0"
-            />
-            <input
-                type="number"
-                placeholder="Nombre de chambres"
-                value={chambres}
-                onChange={(e) => setChambres(e.target.value)}
-                min="1"
-            />
+            <div className='nombres'>
+                <input
+                    type="number"
+                    placeholder="Nombre Adultes"
+                    value={adultes}
+                    onChange={(e) => setAdultes(e.target.value)}
+                    min="1"
+                />
+                <input
+                    type="number"
+                    placeholder="Nombre d'Enfants"
+                    value={enfants}
+                    onChange={(e) => setEnfants(e.target.value)}
+                    min="0"
+                />
+                <input
+                    type="number"
+                    placeholder="Nombre de chambres"
+                    value={chambres}
+                    onChange={(e) => setChambres(e.target.value)}
+                    min="1"
+                />
+            </div>
             <button type="submit">Rechercher</button>
         </form>
     );
