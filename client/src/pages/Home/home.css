@@ -1,49 +1,52 @@
-
-.title {
-    font-size: 6em;
+*{
+  padding: 0;
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
+#logomail {
+  width: 200px;
+  height: auto;
+  margin: 40px;
+  border-radius: 30px;
+}
+
+body {
+  background-color: rgb(252, 247, 235);
+}
+
 .image-presentation{
-    background-image: url('../../assets/design-calli-copie.jpg');
+    background-image: url('../../assets/design-calli.jpg');
+    position: relative;
     background-repeat:no-repeat;
     background-size: cover;
     height: 37em;
-    width: 89em;
+    width: 100%;
 }
-.Search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-.search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
 
-}
 .blur-background {
-    position: relative;
-    width: 100%; /* ou la largeur souhaitée */
-    height: 300px; /* ou la hauteur souhaitée */
-    overflow: hidden;
-  }
-  
-  .blur-background::before {
-    content: '';
+    display: flex;
+    border-radius: 35px;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    /* background-image: url('../../assets/design-calli-copie.jpg'); */
-    filter: blur(8px);
+    top: 10%;
+    left: 25%;
+    width: 500px; /* ou la largeur souhaitée */
+    height: 200px; /* ou la hauteur souhaitée */
+    backdrop-filter: blur(5px) brightness(1.1);
     z-index: 1;
+    
   }
-  
+
+
   .text-overlay {
-    position: absolute;
+    font-size: 24px;
+    position: relative;
+    font-style: italic;
+    line-height: 1.5;
     top: 50%; /* Centrer le texte verticalement */
-    left: 50%; /* Centrer le texte horizontalement */
-    transform: translate(-50%, -50%); /* Ajustement pour un centrage précis */
-    color: #145C56; /* La couleur du texte */
-    z-index: 2; /* Assurez-vous que le texte est au-dessus de l'arrière-plan flou */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #145C56;
+    z-index: 2;
+    display: flex;
+    align-items: center;
   }

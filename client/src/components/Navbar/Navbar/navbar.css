@@ -10,6 +10,7 @@
 }
 
 #image-navbar {
+
     width: 120px;
     border-radius: 30px;
 }
@@ -25,4 +26,8 @@
     border-radius: 10px;
     border: none;
     padding: 12px;
+}
+.logoInitial{
+    border-radius: 50px;
+
 }

@@ -1,17 +1,26 @@
-.search-bar{
-    background-color: #3C3C59;
-    width: 75em;
-    height: 4em;
-    border-radius: 10px;
-}
+
 input {
     border-radius: 11px;
     background-color: #EBEBEB;
     border: none;
+    height: 20px;
 }
 #search {
     border-radius: 11px;
 }
 .nombres {
     display: flex;
+}
+
+.Search-bar {
+    background-color: #3C3C59;
+    opacity: 90%;
+    width: 75em;
+    height: 4em;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin:auto;
+    margin-top: 15px;
 }

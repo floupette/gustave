@@ -1,6 +1,6 @@
 import "./connexion.css"; // Assurez-vous que le chemin est correct
 import logoGustave from "../../../assets/lesvacanceschezgustave.png"; // Assurez-vous que le chemin est correct
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Connexion = () => {
@@ -36,7 +36,7 @@ const Connexion = () => {
             } else {
                 // Si la connexion échoue, afficher un message d'erreur
                 // Cela dépend de la structure de votre réponse d'erreur
-                alert(data.message || 'Une erreur est survenue lors de la connexion.');
+                alert(response.message || 'Une erreur est survenue lors de la connexion.');
             }
         } catch (error) {
             // En cas d'erreur dans le processus de fetch
@@ -48,9 +48,10 @@ const Connexion = () => {
 
     return (
         <>
-            <div>
+
+            <Link to={'/home'}>
                 <img src={logoGustave} alt="logo" />
-            </div>
+            </Link>
             <form className="LoginForm column" onSubmit={handleSubmit}>
                 <label className="flex">
                     Email:
