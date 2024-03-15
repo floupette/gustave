@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import "./detail.css";
 
 const Detail = () => {
     //state pour récuperer le state du resultat dataFiltered SearchBar ligne 39
@@ -20,13 +21,14 @@ const Detail = () => {
     },[])
 
     return (
-        <>
+        <div className="detail">
             {/* {logement && ( */}
                 <div className="description">
                     <h3>{logement.name}</h3>
                     <h4>{logement.type}</h4>
                     <p>Ville : {logement.secteur}</p>
                     <p>Nombre de chambres : {logement.chambre}</p>
+                    <p>{logement.description}</p>
                     <div className="left-images">
                         <div className="logement-images">
                             {logement.images && logement.images.map((image, index) => (
@@ -36,7 +38,7 @@ const Detail = () => {
                     </div>
                 </div>
             {/* )} */}
-        </>
+        </div>
     );
 };
 

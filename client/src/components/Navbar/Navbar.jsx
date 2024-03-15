@@ -1,8 +1,8 @@
 import "./navbar.css";
-import logoGustave from "../../../assets/lesvacanceschezgustave.png";
+import logoGustave from "../../assets/lesvacanceschezgustave.png";
 import { Link, useNavigate, useLocation} from "react-router-dom";
 import { useContext } from "react";
-import UserContext from "../../../Context/userContext";
+import UserContext from "../../Context/userContext";
 
 const Navbar = () => {
     const navigate = useNavigate();

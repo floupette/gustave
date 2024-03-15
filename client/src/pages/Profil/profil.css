@@ -1,11 +1,11 @@
-.resultats{
+.profil{
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
 }
 
-.logement {
+.profil_card {
     width: 300px;
     min-height: 300px;
     border: 1px solid #ccc;
@@ -16,31 +16,20 @@
     color: #333;
     display: inline-block;
 }
-
-.logement:hover {
+.profil_card:hover {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.logement h2 {
-    margin-top: 0;
+.description {
+    margin-bottom: 20px;
 }
 
-.logement p {
+.reservation, .rating {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+.reservation h3, .rating h3 {
     margin-bottom: 10px;
-}
-
-.logement-images {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.logement-images img {
-    max-width: 100%;
-    height: auto;
-    margin-right: 5px; /* Ajoutez de l'espace entre les images si nécessaire */
-}
-
-.logement p:last-child {
-    margin-bottom: 0;
 }
