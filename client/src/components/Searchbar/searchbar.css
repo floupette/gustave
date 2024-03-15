@@ -3,13 +3,33 @@ input {
     border-radius: 11px;
     background-color: #EBEBEB;
     border: none;
-    height: 20px;
+    height: 30px;
 }
+
 #search {
     border-radius: 11px;
 }
-.nombres {
+
+.where {
+    width: 300px;
+    margin-left: 20px;
+}
+
+.date {
+    width: 150px;
+}
+
+.nombres{
     display: flex;
+    flex-direction: row;
+    width: 50px;
+    gap: 0;
+}
+
+#search {
+    background-color: #fcd27e;
+    width: 150px;
+    height: 45px;
 }
 
 .Search-bar {
