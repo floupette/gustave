@@ -24,13 +24,14 @@ body {
 }
 
 .blur-background {
+    padding: 30px;
     display: flex;
     border-radius: 35px;
     position: absolute;
     top: 10%;
-    left: 25%;
-    width: 500px; /* ou la largeur souhaitée */
-    height: 200px; /* ou la hauteur souhaitée */
+    left: 15%;
+    width: 500px; 
+    height: 130px; 
     backdrop-filter: blur(5px) brightness(1.1);
     z-index: 1;
     
@@ -47,6 +48,6 @@ body {
     transform: translate(-50%, -50%);
     color: #145C56;
     z-index: 2;
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
   }

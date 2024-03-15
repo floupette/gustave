@@ -41,7 +41,7 @@ const Navbar = () => {
         <>
             <nav className="ma-navbar">
                 <section className="left-navbar">
-                    <Link to={'/home'}>
+                    <Link to={'/'}>
                         <img src={logoGustave} alt="logo-vacances-chez-gustave" id="image-navbar" />
                     </Link>
                 </section>

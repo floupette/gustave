@@ -4,6 +4,9 @@ import Connexion from "./pages/Home/Connexion/Connexion.jsx"
 import Home from "./pages/Home/Home.jsx"
 import { useEffect, useState } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
+import Resultat from "./pages/Resultat/Resultat.jsx"
+import Detail from "./pages/Detail/Detail.jsx"
+
 
 const App = () => {
     // State pour gérer la data du fetch sur l'Utilisateur
@@ -37,7 +40,9 @@ const App = () => {
               
               <Route path='/connexion' element={<Connexion/>} />
               <Route path='/nous' element={<h1>Nous</h1>} />
-              <Route path='/home' element={<Home/>} />
+              <Route path='/' element={<Home/>} />
+              <Route path='/resultat' element={<Resultat/>} />
+              <Route path='/detaillogement' element={<Detail/>} />
                 
             </Routes>
       </UserContext.Provider>
