@@ -24,7 +24,7 @@ const Navbar = () => {
                     throw new Error(`Déconnexion échouée - ${response.status}`);
                 }
                 setUser(null);
-                navigate('/home');
+                navigate('/');
             })
             .catch(error => {
                 console.error('Erreur lors de la déconnexion :', error.message);

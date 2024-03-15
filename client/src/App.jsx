@@ -1,6 +1,6 @@
 import Navbar from "./components/Navbar/Navbar/Navbar.jsx"
 import UserContext from "./Context/userContext.js"
-import Connexion from "./pages/Home/Connexion/Connexion.jsx"
+import Connexion from "./pages/Connexion/Connexion.jsx"
 import Home from "./pages/Home/Home.jsx"
 import { useEffect, useState } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
