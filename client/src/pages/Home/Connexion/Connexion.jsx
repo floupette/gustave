@@ -1,5 +1,5 @@
-import "./connexion.css"; // Assurez-vous que le chemin est correct
-import logoGustave from "../../../assets/lesvacanceschezgustave.png"; // Assurez-vous que le chemin est correct
+import "./connexion.css";
+import logoGustave from "../../assets/lesvacanceschezgustave.png"; 
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
