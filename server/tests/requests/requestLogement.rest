@@ -25,7 +25,7 @@ Content-Type: application/json
 GET http://localhost:3630/logements
 
 ### Afficher un logement par ID avec ses équipements ###
-GET http://localhost:3630/logements/6
+GET http://localhost:3630/logements/8
 
 ### Mettre à jour un logement par ID avec ses équipements ###
 PUT http://localhost:3630/logements/8

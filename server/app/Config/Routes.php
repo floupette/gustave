@@ -33,7 +33,7 @@ $routes->group('logements', function ($routes) {
     $routes->post('create', 'LogementController::create', ['filter' => ['auth', 'admin']]);
     $routes->get('(:num)', 'LogementController::show/$1');
     $routes->get('/', 'LogementController::index');
-    $routes->put('(:num)', 'LogementController::update/$1', ['filter' => ['auth', 'admin']]);
+    $routes->post('(:num)', 'LogementController::update/$1', ['filter' => ['auth', 'admin']]);
     $routes->delete('(:num)', 'LogementController::delete/$1', ['filter' => ['auth', 'admin']]);
 });
 

@@ -249,10 +249,8 @@ class LogementController extends Controller
     // Méthode pour mettre à jour un logement par ID avec ses équipements
     public function update($id)
     {
-
         // Récupérer les données du formulaire
-        $body = urldecode(file_get_contents('php://input'));
-        parse_str($body, $data);
+        $data = $this->request->getPost();
 
         // Récupérer le logement à mettre à jour depuis la base de données
         $model = new LogementModel();
@@ -283,12 +281,12 @@ class LogementController extends Controller
 
         // Récupérer les fichiers téléchargés
         $uploadedFiles = $this->request->getFiles();
-    
-        // Mettre à jour les images du logement
-        $existingImages = json_decode($logement['images'], true);
   
+        // Récupérer les images existantes
+        $existingImages = json_decode($logement['images'], true) ?? [];
+
         // Vérification si des fichiers images sont envoyés
-        if (!empty($uploadedFiles)) {
+        if (!empty($uploadedFiles['images'] ?? [])) {
             foreach ($uploadedFiles['images'] as $file) {
                 // Vérification de la validité du fichier image
                 if ($file->isValid() && !$file->hasMoved()) {
@@ -298,34 +296,24 @@ class LogementController extends Controller
                     // Obtenez l'extension du fichier
                     $extension = $file->getExtension();
                     // Générez le nom de fichier complet
-                    $imageName = $uniqueFileName . '.' . $extension ;
+                    $imageName = $uniqueFileName . '.' . $extension;
                     // Déplacement du fichier vers le répertoire de stockage des images
                     $file->move(WRITEPATH . 'uploads', $imageName);
-                    // Renommage de l'image en format JSON après avoir été enregistré dans le bon chemin
-                    $imageName = '"' . $uniqueFileName . '.' . $extension . '"' ;
-                    if ($imageName !== false) {
-                        // Ajout du nom de l'image au tableau
-                        array_push($imageNames, $imageName);
-                    } else {
-                        // Gestion des erreurs d'upload d'image
-                        return $this->fail('Erreur lors de l\'upload de l\'image', 500);
-                    }
+                    // Ajout du nom de l'image au tableau
+                    $imageNames[] = $imageName;
                 }
             }
         }
 
-       foreach ($existingImages as $existingImage) {
+        // Supprimer les images du dossier uploads si elles ne sont pas trouvées dans les nouvelles images
+        foreach ($existingImages as $existingImage) {
             if (!in_array($existingImage, $imageNames)) {
-                // Supprimer l'image du dossier uploads si elle est supprimée du logement
                 unlink(WRITEPATH . 'uploads/' . $existingImage);
             }
         }
 
-        // Fusionner les noms des nouvelles images avec les anciennes images
-        $allImageNames = array_merge($existingImages, $imageNames);
-
         // Mettre à jour les images du logement dans la base de données
-        $model->update($id, ['images' => json_encode($allImageNames)]);
+        $model->update($id, ['images' => json_encode($imageNames)]);
         
         // Mettre à jour les autres champs du logement
         $logementData = [
