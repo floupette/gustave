@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar/Navbar/Navbar.jsx"
+import Navbar from "./components/Navbar/Navbar.jsx"
 import UserContext from "./Context/userContext.js"
 import Connexion from "./pages/Connexion/Connexion.jsx"
 import Home from "./pages/Home/Home.jsx"
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
 import Resultat from "./pages/Resultat/Resultat.jsx"
 import Detail from "./pages/Detail/Detail.jsx"
+import Profil from "./pages/Profil/Profil.jsx"
 
 
 const App = () => {
@@ -37,13 +38,12 @@ const App = () => {
       <UserContext.Provider value={{user, setUser}}>
           <Navbar />
             <Routes>
-              
               <Route path='/connexion' element={<Connexion/>} />
               <Route path='/nous' element={<h1>Nous</h1>} />
               <Route path='/' element={<Home/>} />
               <Route path='/resultat' element={<Resultat/>} />
               <Route path='/detaillogement' element={<Detail/>} />
-                
+              <Route path='/profil' element={<Profil/>}/>
             </Routes>
       </UserContext.Provider>
     )

@@ -32,19 +32,25 @@ class UserModel extends Model
   
     public function getReservation(int $userId) : array
     {
-        return $this->db->table('reservations')
-            ->select('id, start_date, end_date')
-            ->where('user_id', $userId)
+        $reservations = $this->db->table('reservations')
+            ->select('reservations.id, reservations.start_date, reservations.end_date, reservations.logement_id, logements.name as logement_name')
+            ->join('logements', 'logements.id = reservations.logement_id')
+            ->where('reservations.user_id', $userId)
             ->get()
             ->getResultArray();
+    
+        return $reservations;
     }
-
+    
     public function getRating(int $userId) : array
     {
-        return $this->db->table('ratings')
-            ->select('id, rated, text, logement_id, reservation_id, user_id')
-            ->where('user_id', $userId)
+        $ratings = $this->db->table('ratings')
+            ->select('ratings.id, ratings.rated, ratings.text, ratings.logement_id, ratings.reservation_id, ratings.user_id, logements.name as logement_name')
+            ->join('logements', 'logements.id = ratings.logement_id')
+            ->where('ratings.user_id', $userId)
             ->get()
             ->getResultArray();
+    
+        return $ratings;
     }
 }
