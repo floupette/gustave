@@ -1,9 +1,9 @@
-import "./connexion.css";
-import logoGustave from "../../assets/lesvacanceschezgustave.png"; 
+import "./connexion.css"; // Assurez-vous que le chemin est correct
+import logoGustave from "../../assets/lesvacanceschezgustave.png"; // Assurez-vous que le chemin est correct
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useContext } from "react";
-import UserContext from "../../../Context/userContext";
+import UserContext from "../../Context/userContext";
 
 const Connexion = () => {
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Connexion = () => {
                 console.log(data);
                 setUser(data);
                 // Si la connexion est réussie, naviguer vers '/home'
-                navigate('/home');
+                navigate('/');
                 // Vous pourriez également vouloir sauvegarder les informations de l'utilisateur ou le token de session ici
             } else {
                 // Si la connexion échoue, afficher un message d'erreur
