@@ -53,23 +53,19 @@ const Connexion = () => {
 
 
     return (
-        <>
 
-            <Link to={'/home'}>
-                <img src={logoGustave} alt="logo" />
-            </Link>
-            <form className="LoginForm column" onSubmit={handleSubmit}>
-                <label className="flex">
-                    Email:
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </label>
-                <label className="flex">
-                    Mot de passe:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </label>
-                <button type="submit">Se connecter</button>
-            </form>
-        </>
+        <div className="login">
+            <div className="cardLogin">
+                <Link to={'/'}>
+                    <img className="logoLogin" src={logoGustave} alt="logo" />
+                </Link>
+                <form className="loginForm" onSubmit={handleSubmit}>
+                    <input type="email" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
+                    <input type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+                    <button type="submit" className="btnLogin">Se connecter</button>
+                </form>
+            </div>
+        </div>
     );
 };
 
