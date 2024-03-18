@@ -6,7 +6,7 @@
 }
 
 .profil_card {
-    width: 300px;
+    width: fit-content;
     min-height: 300px;
     border: 1px solid #ccc;
     border-radius: 5px;
