@@ -1,0 +1,33 @@
+.footer {
+    background-color: #145C56; /* Couleur de fond du footer */
+    color: #6c757d; /* Couleur du texte */
+    text-align: center; /* Centre le texte */
+    padding: 20px 0; /* Espacement à l'intérieur du footer */ 
+}
+
+.footer-links {
+    list-style-type: none; /* Enlève les puces de la liste */
+    padding: 0; /* Enlève le padding par défaut de la liste */
+    margin: 0; /* Enlève la marge par défaut de la liste */    
+    gap: 20px;
+}
+
+.footer-links li {
+    display: flex;
+    justify-content: center;
+
+    margin: 0 15px; /* Espacement entre les éléments de la liste */
+}
+
+.footer-links a {
+    color: #D9C289; /* Couleur des liens */
+    text-decoration: none; /* Enlève le soulignement des liens */
+}
+
+.footer-links a:hover {
+    text-decoration: underline; /* Souligne les liens au survol */
+}
+
+#logo-footer {
+    margin-bottom: 20px;
+}

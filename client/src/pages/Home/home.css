@@ -51,3 +51,28 @@ body {
     /* display: flex;
     align-items: center; */
   }
+  /* .Search-bar {
+    margin: 20px;
+  } */
+  .coups-de-coeur {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.coups-de-coeur img {
+    width: 400px; /* Définit une largeur fixe pour toutes les images */
+    height: 250px; /* Définit une hauteur fixe pour toutes les images */
+    object-fit: cover; /* Assure que les images couvrent l'espace sans être déformées */
+    margin: 10px; /* Espacement autour des images */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Ombre pour donner l'effet 3D */
+    transition: box-shadow 0.2s ease-in-out; /* Animation pour l'ombre */
+    background-color: white; /* Couleur de fond du cadre, similaire à un Polaroid */
+    padding: 15px; /* Espace entre l'image et le bord du cadre */
+    box-sizing: border-box; /* S'assure que le padding n'augmente pas la taille de l'élément */
+}
+
+.coups-de-coeur img:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Ombre plus importante lors du survol */
+}

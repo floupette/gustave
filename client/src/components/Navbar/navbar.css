@@ -1,4 +1,6 @@
-
+*{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
 .ma-navbar {
     background: rgb(20,92,86);
     background: linear-gradient(180deg, rgba(20,92,86,1) 33%, rgba(36,103,98,1) 44%, rgba(79,133,128,1) 59%, rgba(125,165,161,1) 71%, rgba(142,180,176,1) 79%, rgba(155,190,187,1) 87%, rgba(190,220,218,1) 100%);
